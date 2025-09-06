@@ -11,37 +11,32 @@ const loadLevelWord = (id) => {
         .then(data => displayLevelWords(data.data))
 }
 
-// id
-// :
-// 82
-// level
-// :
-// 1
-// meaning
-// :
-// "গাড়ি"
-// pronunciation
-// :
-// "কার"
-// word
-// :
-// "Car"
-
 const displayLevelWords = (words) => {
     const wordContainer = document.getElementById('word-container')
     wordContainer.innerHTML = ''
 
+    if (words.length === 0) {
+        wordContainer.innerHTML = `<div class="text-center col-span-full">
+        <img class="mx-auto" src="./assets/alert-error.png" alt="">
+                <p class="text-gray-400 text-2xl font-bangla">এই Lesson এ এখনো কোন Vocabulary যুক্ত করা হয়নি।  </p>
+                <h2 class="text-gray-800 text-3xl font-bangla">নেক্সট Lesson এ যান</h2>
+            </div>`
+
+        return
+    }
+
     words.forEach(word => {
-        console.log(word)
         const card = document.createElement('div')
         card.innerHTML = `
          <div class="bg-white p-5 text-center rounded-md shadow-2xl space-y-5">
-                <h2 class="font-bold text-2xl"> ${word.word} </h2>
+                <h2 class="font-bold text-2xl"> ${word.word ? word.word : "শব্দ পাওয়া যায়নি"} </h2>
+
                 <p class=" font-semibold text-xl"> Meaning / pronunciation </p>
-                <p class="font-semibold text-xl font-bangla"> ${word.meaning} / ${word.pronunciation}</p>
+
+                <p class="font-semibold text-xl font-bangla"> ${word.meaning ? word.meaning : "অর্থ পাওয়া যায়নি"} / ${word.pronunciation ? word.pronunciation : "pronunciation পাওয়া যায়নি"}</p>
 
                 <div class="flex justify-between items-center">
-                    <button class="btn"> <i class="fa-solid fa-circle-info"></i>  </button>
+                    <button onclick="my_modal_5.showModal()" class="btn"> <i class="fa-solid fa-circle-info"></i>  </button>
                     <button class="btn"> <i class="fa-solid fa-volume-high"></i>  </button>
                     
                 </div>
